@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    body {
+        @apply bg-[#edf2f6] text-slate-950 antialiased;
+        font-family: 'Manrope', system-ui, sans-serif;
+    }
+
+    .font-serif {
+        font-family: 'Cormorant Garamond', serif;
+    }
+
+    a {
+        @apply transition-colors;
+    }
+}
