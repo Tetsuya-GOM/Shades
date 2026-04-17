@@ -5,8 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
@@ -34,7 +36,10 @@ class Product extends Model
         'new_arrival',
         'active',
         'artwork_key',
+        'image_path',
     ];
+
+    protected $appends = ['image_url'];
 
     protected function casts(): array
     {
@@ -63,5 +68,10 @@ class Product extends Model
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('active', true);
+    }
+
+    protected function imageUrl(): Attribute
+    {
+        return Attribute::get(fn () => $this->image_path ? Storage::url($this->image_path) : null);
     }
 }

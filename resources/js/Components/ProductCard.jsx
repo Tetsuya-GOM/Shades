@@ -9,9 +9,13 @@ export default function ProductCard({ product }) {
                 <span className="absolute left-4 top-4 rounded-full border border-slate-200 bg-white/90 px-3 py-1 text-[11px] font-black uppercase tracking-[0.2em] text-slate-700">
                     {product.frame_style}
                 </span>
-                <div className="h-full w-full max-w-[280px]">
-                    <EyewearArt type={product.artwork_key} />
-                </div>
+                {product.image_url ? (
+                    <img src={product.image_url} alt={product.name} className="h-full w-full max-w-[280px] object-contain" />
+                ) : (
+                    <div className="h-full w-full max-w-[280px]">
+                        <EyewearArt type={product.artwork_key} />
+                    </div>
+                )}
             </div>
             <div className="space-y-4 p-5">
                 <div className="flex items-start justify-between gap-4">

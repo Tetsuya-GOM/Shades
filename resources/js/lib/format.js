@@ -1,11 +1,11 @@
 export const currency = (value) =>
-    new Intl.NumberFormat('en-US', {
+    new Intl.NumberFormat('en-PH', {
         style: 'currency',
-        currency: 'USD',
+        currency: 'PHP',
     }).format(Number(value ?? 0));
 
 export const number = (value) =>
-    new Intl.NumberFormat('en-US').format(Number(value ?? 0));
+    new Intl.NumberFormat('en-PH').format(Number(value ?? 0));
 
 export const paymentLabel = (value) =>
     ({

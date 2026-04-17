@@ -1,9 +1,11 @@
 import EyewearArt from '@/Components/EyewearArt';
 import ProductCard from '@/Components/ProductCard';
 import StoreLayout from '@/Layouts/StoreLayout';
-import { Head, useForm } from '@inertiajs/react';
+import { currency } from '@/lib/format';
+import { Head, Link, useForm, usePage } from '@inertiajs/react';
 
 export default function ShopShow({ product, relatedProducts }) {
+    const auth = usePage().props.auth;
     const form = useForm({
         quantity: 1,
         selected_color: product.available_colors[0],
@@ -20,9 +22,13 @@ export default function ShopShow({ product, relatedProducts }) {
 
             <section className="grid gap-6 xl:grid-cols-[1fr_460px]">
                 <div className="rounded-[32px] border border-slate-200 bg-[linear-gradient(180deg,#fbfcfe,#eef3f8)] p-8">
-                    <div className="mx-auto h-[320px] max-w-[520px] sm:h-[420px]">
-                        <EyewearArt type={product.artwork_key} />
-                    </div>
+                    {product.image_url ? (
+                        <img src={product.image_url} alt={product.name} className="mx-auto h-[320px] max-w-[520px] object-contain sm:h-[420px]" />
+                    ) : (
+                        <div className="mx-auto h-[320px] max-w-[520px] sm:h-[420px]">
+                            <EyewearArt type={product.artwork_key} />
+                        </div>
+                    )}
                 </div>
 
                 <div className="space-y-6">
@@ -37,14 +43,17 @@ export default function ShopShow({ product, relatedProducts }) {
                     <div className="rounded-[28px] border border-slate-200 bg-white p-6">
                         <div className="flex items-end justify-between gap-4">
                             <div>
-                                <div className="text-3xl font-black text-slate-950">${product.price}</div>
+                                <div className="text-3xl font-black text-slate-950">{currency(product.price)}</div>
                                 {product.compare_price && (
-                                    <div className="text-sm text-slate-400 line-through">${product.compare_price}</div>
+                                    <div className="text-sm text-slate-400 line-through">{currency(product.compare_price)}</div>
                                 )}
                             </div>
                             <div className="text-right text-sm text-slate-500">
                                 <div>{product.material}</div>
                                 <div>{product.lens_type}</div>
+                                <div className={`mt-2 font-bold ${product.inventory > 0 ? 'text-emerald-700' : 'text-rose-600'}`}>
+                                    {product.inventory > 0 ? `${product.inventory} in stock` : 'Out of stock'}
+                                </div>
                             </div>
                         </div>
 
@@ -81,13 +90,27 @@ export default function ShopShow({ product, relatedProducts }) {
                                 />
                             </div>
 
-                            <button
-                                type="submit"
-                                disabled={form.processing}
-                                className="inline-flex rounded-full bg-[#c8a56a] px-6 py-3 text-sm font-bold text-slate-950"
-                            >
-                                Add to cart
-                            </button>
+                            {auth.user ? (
+                                <button
+                                    type="submit"
+                                    disabled={form.processing || product.inventory < 1}
+                                    className="inline-flex rounded-full bg-[#c8a56a] px-6 py-3 text-sm font-bold text-slate-950"
+                                >
+                                    {product.inventory > 0 ? 'Add to cart' : 'Unavailable'}
+                                </button>
+                            ) : (
+                                <div className="space-y-3">
+                                    <Link
+                                        href={route('login')}
+                                        className="inline-flex rounded-full bg-[#c8a56a] px-6 py-3 text-sm font-bold text-slate-950"
+                                    >
+                                        Login to add to cart
+                                    </Link>
+                                    <p className="text-sm text-slate-500">
+                                        You need to sign in before adding items to your cart.
+                                    </p>
+                                </div>
+                            )}
                         </form>
                     </div>
 

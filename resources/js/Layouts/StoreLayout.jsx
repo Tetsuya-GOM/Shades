@@ -5,14 +5,13 @@ export default function StoreLayout({ children }) {
     const { auth, cart, categories, flash } = usePage().props;
 
     return (
-        <div className="min-h-screen bg-[#edf2f6] px-2 py-3 text-slate-950 sm:px-4 sm:py-6">
-            <div className="mx-auto max-w-[1440px] overflow-hidden rounded-[30px] border border-white/70 bg-white shadow-[0_18px_50px_rgba(15,23,32,0.08)]">
-                <div className="flex flex-wrap items-center justify-between gap-4 bg-[linear-gradient(90deg,#141d27,#1d2936)] px-6 py-3 text-sm text-white/85">
-                    <span>Desktop-first eyewear storefront adapted into a live Laravel + React shop.</span>
+        <div className="min-h-screen w-full bg-[#edf2f6] text-slate-950">
+            <div className="min-h-screen w-full overflow-x-hidden bg-white">
+                <div className="flex flex-wrap items-center justify-between gap-4 bg-[linear-gradient(90deg,#141d27,#1d2936)] px-4 py-3 text-sm text-white/85 sm:px-6 lg:px-8">
                     <span>Premium shades, sunglasses, and optical frames</span>
                 </div>
 
-                <header className="border-b border-slate-100 px-6 py-6">
+                <header className="border-b border-slate-100 px-4 py-5 sm:px-6 lg:px-8">
                     <div className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
                         <Link href={route('home')}>
                             <Brand />
@@ -76,9 +75,9 @@ export default function StoreLayout({ children }) {
                     )}
                 </header>
 
-                <main className="px-6 py-8 sm:px-8 sm:py-10">{children}</main>
+                <main className="px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">{children}</main>
 
-                <footer className="grid gap-8 border-t border-slate-100 px-6 py-8 text-sm text-slate-500 md:grid-cols-4 sm:px-8">
+                <footer className="grid gap-8 border-t border-slate-100 px-4 py-8 text-sm text-slate-500 sm:px-6 md:grid-cols-4 lg:px-8">
                     <div className="space-y-3">
                         <Brand compact />
                         <p className="max-w-xs leading-6">
@@ -97,7 +96,7 @@ export default function StoreLayout({ children }) {
                             {auth.user ? 'Dashboard' : 'Login'}
                         </Link>
                         <Link href={route('cart.index')}>Cart</Link>
-                        <Link href={route('checkout.index')}>Checkout</Link>
+                        <Link href={route('checkout.index')}>{auth.user ? 'Checkout' : 'Login for checkout'}</Link>
                     </div>
                     <div className="space-y-2">
                         <p className="text-xs font-black uppercase tracking-[0.18em] text-slate-400">Promise</p>

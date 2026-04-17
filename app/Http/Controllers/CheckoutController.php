@@ -79,7 +79,9 @@ class CheckoutController extends Controller
 
         $this->cartService->destroy($request);
 
-        return redirect()->route('orders.success', $order->order_number);
+        return redirect()
+            ->route('orders.success', $order->order_number)
+            ->with('success', "Thank you for your purchase. Your order {$order->order_number} is now being prepared.");
     }
 
     public function success(string $orderNumber): Response

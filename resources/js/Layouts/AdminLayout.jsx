@@ -22,7 +22,7 @@ export default function AdminLayout({ children, title }) {
                                 key={item.routeName}
                                 href={route(item.routeName)}
                                 className={`block rounded-2xl px-4 py-3 text-sm font-bold ${
-                                    route().current(item.routeName)
+                                    route().current(item.routeName) || route().current(`${item.routeName.replace('.index', '')}.*`)
                                         ? 'bg-white/10 text-white'
                                         : 'text-white/75 hover:bg-white/5 hover:text-white'
                                 }`}

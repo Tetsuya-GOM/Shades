@@ -1,8 +1,11 @@
 import ProductCard from '@/Components/ProductCard';
+import Pagination from '@/Components/Pagination';
 import StoreLayout from '@/Layouts/StoreLayout';
-import { Head, Link, router } from '@inertiajs/react';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 
 export default function ShopIndex({ products, filters, styles }) {
+    const categories = usePage().props.categories;
+
     const updateFilters = (key, value) => {
         router.get(
             route('shop.index'),
@@ -28,6 +31,19 @@ export default function ShopIndex({ products, filters, styles }) {
                         placeholder="Search frames or styles"
                         className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm"
                     />
+
+                    <select
+                        value={filters.category ?? ''}
+                        onChange={(event) => updateFilters('category', event.target.value)}
+                        className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm"
+                    >
+                        <option value="">All categories</option>
+                        {categories.map((category) => (
+                            <option key={category.id} value={category.slug}>
+                                {category.name}
+                            </option>
+                        ))}
+                    </select>
 
                     <select
                         value={filters.style ?? ''}
@@ -81,6 +97,8 @@ export default function ShopIndex({ products, filters, styles }) {
                             <p className="mt-3 text-slate-500">Try another style, search term, or reset the catalog view.</p>
                         </div>
                     )}
+
+                    <Pagination links={products.links} />
                 </section>
             </div>
         </StoreLayout>

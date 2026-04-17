@@ -1,7 +1,8 @@
 import StatusBadge from '@/Components/StatusBadge';
+import Pagination from '@/Components/Pagination';
 import AdminLayout from '@/Layouts/AdminLayout';
 import { currency } from '@/lib/format';
-import { Head, router, useForm } from '@inertiajs/react';
+import { Head, Link, router, useForm } from '@inertiajs/react';
 
 function OrderStatusSelect({ order, statuses }) {
     const form = useForm({ status: order.status });
@@ -78,6 +79,9 @@ export default function AdminOrdersIndex({ orders, filters, statuses }) {
                             <div className="flex flex-wrap items-center gap-3">
                                 <StatusBadge value={order.status} />
                                 <div className="text-lg font-black text-slate-950">{currency(order.total_amount)}</div>
+                                <Link href={route('admin.orders.show', order.id)} className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-950">
+                                    View details
+                                </Link>
                             </div>
                         </div>
 
@@ -97,6 +101,8 @@ export default function AdminOrdersIndex({ orders, filters, statuses }) {
                     </article>
                 ))}
             </div>
+
+            <Pagination links={orders.links} />
         </AdminLayout>
     );
 }

@@ -1,9 +1,11 @@
 import EyewearArt from '@/Components/EyewearArt';
 import StoreLayout from '@/Layouts/StoreLayout';
 import { currency } from '@/lib/format';
-import { Head, Link, router } from '@inertiajs/react';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 
 export default function CartIndex({ cart }) {
+    const auth = usePage().props.auth;
+
     return (
         <StoreLayout>
             <Head title="Cart" />
@@ -93,7 +95,7 @@ export default function CartIndex({ cart }) {
                         </div>
                     </div>
                     <Link href={route('checkout.index')} className="mt-6 inline-flex w-full justify-center rounded-full bg-[#c8a56a] px-6 py-3 text-sm font-bold text-slate-950">
-                        Continue to checkout
+                        {auth.user ? 'Continue to checkout' : 'Login to continue'}
                     </Link>
                 </aside>
             </div>

@@ -41,6 +41,21 @@ export default function OrderSuccess({ order }) {
                     </div>
                 </div>
 
+                <div className="mt-8 rounded-[28px] border border-slate-200 bg-white p-6 text-left">
+                    <p className="text-xs font-black uppercase tracking-[0.18em] text-[#92713d]">Order summary</p>
+                    <div className="mt-5 space-y-3">
+                        {order.items.map((item) => (
+                            <div key={item.id} className="flex flex-wrap items-center justify-between gap-3 rounded-[22px] border border-slate-200 bg-slate-50 px-4 py-4">
+                                <div>
+                                    <div className="font-bold text-slate-950">{item.product_name}</div>
+                                    <div className="text-sm text-slate-500">{item.selected_color} • Qty {item.quantity}</div>
+                                </div>
+                                <div className="font-bold text-slate-950">{currency(item.line_total)}</div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
                 <div className="mt-8 flex flex-wrap justify-center gap-3">
                     <Link href={route('shop.index')} className="inline-flex rounded-full bg-slate-950 px-6 py-3 text-sm font-bold text-white">
                         Continue shopping
